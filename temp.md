@@ -1,17 +1,22 @@
-# RAD 2.0 — CTF Write-Up
-
-**Team:** Your Team 🇮🇳
-**Final Rank:** 🏅 7th Place — **3050 Points**
-
+```
+ 
+ ██╗   ██╗ ██████╗ ██╗   ██╗██████╗     ████████╗███████╗ █████╗ ███╗   ███╗
+ ╚██╗ ██╔╝██╔═══██╗██║   ██║██╔══██╗    ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║
+  ╚████╔╝ ██║   ██║██║   ██║██████╔╝       ██║   █████╗  ███████║██╔████╔██║
+   ╚██╔╝  ██║   ██║██║   ██║██╔══██╗       ██║   ██╔══╝  ██╔══██║██║╚██╔╝██║
+    ██║   ╚██████╔╝╚██████╔╝██║  ██║       ██║   ███████╗██║  ██║██║ ╚═╝ ██║
+    ╚═╝    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝       ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝
+ 
+                       [ RAD 2.0 CTF — Write-Up ]
+                   ================================
+                    Team    :  Your Team  🇮🇳
+                    Rank    :  7th Place
+                    Points  :  3050
+                    Date    :  March 14, 2025
+                   ================================
+```
+ 
 ---
-
-![Team Result]()
-
----
-
-## Solved Challenges
-
-![Scoreboard]()
 
 | # | Challenge | Category | Points | Time Solved |
 |---|-----------|----------|--------|-------------|
@@ -56,6 +61,40 @@
 
 Pretty straightforward one to kick things off. We joined the Cyberzee Discord, headed over to the RAD sector channel, and the flag was just sitting there in a message from Mission Control. No tricks, just making sure you're actually part of the community.
 
+---
+### 1.5. Sixty-Three Steps to Nowhere
+ 
+| Field | Detail |
+|-------|--------|
+| **Points** | 350 |
+| **Category** | MISC |
+ 
+**Description:**
+> A piece was left wandering on a board it never understood. It never stood still, never repeated itself, and yet somehow returned home. Every tile remembers the moment it was touched. Follow the wanderer's footsteps in the only order that makes sense. Sixty-three steps were taken. The sixty-fourth was inevitable.
+ 
+**How we solved it:**
+ 
+This one was genuinely one of our favourites from the whole CTF. The riddle is poetic but every line is a direct clue if you read it carefully.
+ 
+*"A piece was left wandering on a board it never understood"* — there's a knight (♘) sitting on `d4` in the provided grid. *"Never stood still, never repeated itself, and yet somehow returned home"* — that's a closed Knight's Tour: visit every single square on an 8×8 board exactly once using only L-shaped knight moves, then land back where you started. *"Sixty-three steps were taken, the sixty-fourth was inevitable"* — 64 squares, 63 moves, the last one closes the loop back to `d4`.
+ 
+So the grid has a character on every square. The challenge is figuring out *which* Knight's Tour path, when followed, spells out something readable. There's only one that makes coherent leetspeak English.
+ 
+We started at the knight on `d4` and traced the path square by square. One thing that tripped us up briefly — the character on `a4` has a tiny top serif which makes it look like a lowercase `l`, but it's actually the number `1`. The hint **D4_closed_loop** confirmed the mechanic perfectly and nudged us toward that correction.
+ 
+Tracing all 63 steps and collecting the characters in order:
+ 
+- `d4` → `f5(R)` → `d6(A)` → `e8(D)` → `c7({)` → `a8(k)` → `b6(n)` → `a4(1)` → `b2(g)` → `d1(h)` → `f2(t)` → `h1(_)` → ...continuing through all 64 squares...→ `f3(a)` → back to `d4(})`
+ 
+The full string collected along the path spelled out the flag. A satisfying puzzle — pure chess logic meets CTF encoding.
+ Stringing all these visited squares together yields the final flag.
+
+
+RAD{knlght_t0ur_p4th_8x8_ch3ss_gr1d_m4p_63_sq_v1s1t_fl4g_h3r3_a}
+
+
+**Key technique:** Closed Knight's Tour path tracing on an 8×8 character grid, leetspeak decoding.
+ 
 ---
 
 ### 2. Timestamp Whisper
